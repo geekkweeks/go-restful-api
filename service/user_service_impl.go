@@ -7,14 +7,19 @@ import (
 	"geekkweeks/go-restful-api/model/domain"
 	"geekkweeks/go-restful-api/model/web"
 	"geekkweeks/go-restful-api/repository"
+	"github.com/go-playground/validator/v10"
 )
 
 type UserServiceImpl struct {
 	UserRepository repository.UserRepository
-	DB             *sql.DB //need pointer(*) because DB is struct
+	DB             *sql.DB             //need pointer(*) because DB is struct
+	Validate       *validator.Validate //need pointer(*) because Validate is struct
 }
 
 func (service *UserServiceImpl) Add(ctx context.Context, request web.UserAddRequest) web.UserResponse {
+	err := service.Validate.Struct(request)
+	helper.PanicIfError(err)
+
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.TxCommitOrRollback(tx)
@@ -32,6 +37,9 @@ func (service *UserServiceImpl) Add(ctx context.Context, request web.UserAddRequ
 }
 
 func (service *UserServiceImpl) Update(ctx context.Context, request web.UserUpdateRequest) web.UserResponse {
+	err := service.Validate.Struct(request)
+	helper.PanicIfError(err)
+
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.TxCommitOrRollback(tx)
