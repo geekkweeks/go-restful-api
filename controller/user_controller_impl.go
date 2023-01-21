@@ -13,6 +13,12 @@ type UserControllerImpl struct {
 	UserService service.UserService // no need pointer, because userservice is interface
 }
 
+func NewUserController(userService service.UserService) UserController {
+	return &UserControllerImpl{
+		UserService: userService,
+	}
+}
+
 func (controller *UserControllerImpl) Add(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
 	userAddRequest := web.UserAddRequest{}
 	helper.ReadFromRequestBody(request, &userAddRequest)

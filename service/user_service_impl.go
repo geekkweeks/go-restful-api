@@ -16,6 +16,14 @@ type UserServiceImpl struct {
 	Validate       *validator.Validate //need pointer(*) because Validate is struct
 }
 
+func NewUserService(userRepository repository.UserRepository, DB *sql.DB, validate *validator.Validate) UserService {
+	return &UserServiceImpl{
+		UserRepository: userRepository,
+		DB:             DB,
+		Validate:       validate,
+	}
+}
+
 func (service *UserServiceImpl) Add(ctx context.Context, request web.UserAddRequest) web.UserResponse {
 	err := service.Validate.Struct(request)
 	helper.PanicIfError(err)
