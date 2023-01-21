@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"encoding/json"
 	"geekkweeks/go-restful-api/helper"
 	"geekkweeks/go-restful-api/model/web"
 	"geekkweeks/go-restful-api/service"
@@ -15,10 +14,8 @@ type UserControllerImpl struct {
 }
 
 func (controller *UserControllerImpl) Add(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
-	decoder := json.NewDecoder(request.Body)
 	userAddRequest := web.UserAddRequest{}
-	err := decoder.Decode(&userAddRequest)
-	helper.PanicIfError(err)
+	helper.ReadFromRequestBody(request, &userAddRequest)
 
 	userResponse := controller.UserService.Add(request.Context(), userAddRequest)
 	webResponse := web.WebResponse{
@@ -27,17 +24,12 @@ func (controller *UserControllerImpl) Add(writer http.ResponseWriter, request *h
 		Data:   userResponse,
 	}
 
-	writer.Header().Add("Content-Type", "application/json")
-	encoder := json.NewEncoder(writer)
-	err = encoder.Encode(webResponse)
-	helper.PanicIfError(err)
+	helper.WriteToResponseBody(writer, webResponse)
 }
 
 func (controller *UserControllerImpl) Update(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
-	decoder := json.NewDecoder(request.Body)
 	userUpdateRequest := web.UserUpdateRequest{}
-	err := decoder.Decode(&userUpdateRequest)
-	helper.PanicIfError(err)
+	helper.ReadFromRequestBody(request, &userUpdateRequest)
 
 	userId := params.ByName("id")
 	id, err := strconv.Atoi(userId)
@@ -52,10 +44,7 @@ func (controller *UserControllerImpl) Update(writer http.ResponseWriter, request
 		Data:   userResponse,
 	}
 
-	writer.Header().Add("Content-Type", "application/json")
-	encoder := json.NewEncoder(writer)
-	err = encoder.Encode(webResponse)
-	helper.PanicIfError(err)
+	helper.WriteToResponseBody(writer, webResponse)
 }
 
 func (controller *UserControllerImpl) Delete(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
@@ -69,10 +58,7 @@ func (controller *UserControllerImpl) Delete(writer http.ResponseWriter, request
 		Status: "OK",
 	}
 
-	writer.Header().Add("Content-Type", "application/json")
-	encoder := json.NewEncoder(writer)
-	err = encoder.Encode(webResponse)
-	helper.PanicIfError(err)
+	helper.WriteToResponseBody(writer, webResponse)
 }
 
 func (controller *UserControllerImpl) FindById(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
@@ -87,10 +73,7 @@ func (controller *UserControllerImpl) FindById(writer http.ResponseWriter, reque
 		Data:   userResponse,
 	}
 
-	writer.Header().Add("Content-Type", "application/json")
-	encoder := json.NewEncoder(writer)
-	err = encoder.Encode(webResponse)
-	helper.PanicIfError(err)
+	helper.WriteToResponseBody(writer, webResponse)
 }
 
 func (controller *UserControllerImpl) GetAll(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
@@ -101,8 +84,5 @@ func (controller *UserControllerImpl) GetAll(writer http.ResponseWriter, request
 		Data:   userResponses,
 	}
 
-	writer.Header().Add("Content-Type", "application/json")
-	encoder := json.NewEncoder(writer)
-	err := encoder.Encode(webResponse)
-	helper.PanicIfError(err)
+	helper.WriteToResponseBody(writer, webResponse)
 }
