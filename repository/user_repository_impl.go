@@ -46,6 +46,7 @@ func (repository *UserRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, 
 	SQL := "SELECT id, username, firstName, lastName, Phone from user where id = ?"
 	rows, err := tx.QueryContext(ctx, SQL, id)
 	helper.PanicIfError(err)
+	defer rows.Close()
 
 	user := domain.User{}
 	if rows.Next() {
@@ -61,6 +62,7 @@ func (repository *UserRepositoryImpl) GetAll(ctx context.Context, tx *sql.Tx) []
 	SQL := "SELECT id, username, firstName, lastName, Phone from user"
 	rows, err := tx.QueryContext(ctx, SQL)
 	helper.PanicIfError(err)
+	defer rows.Close()
 
 	var users []domain.User
 	for rows.Next() {

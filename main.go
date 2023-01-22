@@ -23,7 +23,7 @@ func main() {
 
 	router.GET("/api/users", userController.GetAll)
 	router.GET("/api/users/:userId", userController.FindById)
-	router.POST("/api/users/", userController.Add)
+	router.POST("/api/users", userController.Add)
 	router.PUT("/api/users/:userId", userController.Update)
 	router.DELETE("/api/users/:userId", userController.Delete)
 
