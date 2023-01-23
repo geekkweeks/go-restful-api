@@ -37,8 +37,8 @@ func (repository *UserRepositoryImpl) Update(ctx context.Context, tx *sql.Tx, us
 }
 
 func (repository *UserRepositoryImpl) Delete(ctx context.Context, tx *sql.Tx, user domain.User) {
-	SQL := "DELETE USER where id = ?"
-	_, err := tx.ExecContext(ctx, SQL, user)
+	SQL := "DELETE FROM USER where id = ?"
+	_, err := tx.ExecContext(ctx, SQL, user.Id)
 	helper.PanicIfError(err)
 }
 

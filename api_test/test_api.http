@@ -29,3 +29,7 @@ Content-Type: application/json
   "lastName": "Zahri",
   "phone": "08392723"
 }
+
+### Delete an user
+DELETE http://localhost:3000/api/users/3
+Accept: application/json
