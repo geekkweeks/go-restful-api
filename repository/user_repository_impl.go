@@ -16,7 +16,7 @@ func NewUserRepository() UserRepository {
 }
 
 func (repository *UserRepositoryImpl) Add(ctx context.Context, tx *sql.Tx, user domain.User) domain.User {
-	SQL := "INSERT INTO USER(username, firstname, lastname, phone) values (?)"
+	SQL := "INSERT INTO USER(username, firstname, lastname, phone) values (?, ?, ?, ?)"
 	result, err := tx.ExecContext(ctx, SQL, user.Username, user.FirstName, user.LastName, user.Phone)
 	helper.PanicIfError(err)
 
