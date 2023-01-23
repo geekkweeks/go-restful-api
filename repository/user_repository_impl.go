@@ -6,6 +6,7 @@ import (
 	"errors"
 	"geekkweeks/go-restful-api/helper"
 	"geekkweeks/go-restful-api/model/domain"
+	"strconv"
 )
 
 type UserRepositoryImpl struct {
@@ -55,7 +56,8 @@ func (repository *UserRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, 
 		helper.PanicIfError(err)
 		return user, nil
 	} else {
-		return user, errors.New("User is not found")
+		errorMessage := "User with ID:" + strconv.Itoa(id) + " is not found"
+		return user, errors.New(errorMessage)
 	}
 }
 

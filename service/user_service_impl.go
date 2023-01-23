@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"database/sql"
+	"geekkweeks/go-restful-api/exception"
 	"geekkweeks/go-restful-api/helper"
 	"geekkweeks/go-restful-api/model/domain"
 	"geekkweeks/go-restful-api/model/web"
@@ -54,7 +55,10 @@ func (service *UserServiceImpl) Update(ctx context.Context, request web.UserUpda
 
 	// check if user by id is exist
 	userEntity, err := service.UserRepository.FindById(ctx, tx, request.Id)
-	helper.PanicIfError(err)
+	// if data is not found, will be given the error not found
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 
 	// if exist
 	userEntity.Username = request.Username
@@ -74,7 +78,10 @@ func (service *UserServiceImpl) Delete(ctx context.Context, id int) {
 
 	// check if user by id is exist
 	userEntity, err := service.UserRepository.FindById(ctx, tx, id)
-	helper.PanicIfError(err)
+	// if data is not found, will be given the error not found
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 
 	service.UserRepository.Delete(ctx, tx, userEntity)
 }
@@ -85,7 +92,10 @@ func (service *UserServiceImpl) FindById(ctx context.Context, id int) web.UserRe
 	defer helper.TxCommitOrRollback(tx)
 
 	userEntity, err := service.UserRepository.FindById(ctx, tx, id)
-	helper.PanicIfError(err)
+	// if data is not found, will be given the error not found
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 
 	return helper.ToUserResponse(userEntity)
 }

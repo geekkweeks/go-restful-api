@@ -3,7 +3,9 @@ package main
 import (
 	"geekkweeks/go-restful-api/app"
 	"geekkweeks/go-restful-api/controller"
+	"geekkweeks/go-restful-api/exception"
 	"geekkweeks/go-restful-api/helper"
+	"geekkweeks/go-restful-api/middleware"
 	"geekkweeks/go-restful-api/repository"
 	"geekkweeks/go-restful-api/service"
 	"github.com/go-playground/validator/v10"
@@ -27,9 +29,12 @@ func main() {
 	router.PUT("/api/users/:userId", userController.Update)
 	router.DELETE("/api/users/:userId", userController.Delete)
 
+	// error handler
+	router.PanicHandler = exception.ErrorHandler
+
 	server := http.Server{
 		Addr:    "localhost:3000",
-		Handler: router,
+		Handler: middleware.NewAuthMiddleware(router), // every request will check by middleware first before continuing to next handler
 	}
 
 	err := server.ListenAndServe()

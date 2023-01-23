@@ -3,7 +3,8 @@ GET http://localhost:3000/api/users
 Accept: application/json
 
 ### Get user by id
-GET http://localhost:3000/api/users/2
+GET http://localhost:3000/api/users/1
+X-API-Key: BwFvHRMEGQ
 Accept: application/json
 
 ### Add new user
@@ -12,7 +13,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "username": "gohan",
+  "username": "Yupi",
   "firstName": "gohan son",
   "lastName": "Uhuyss",
   "phone": "233444"
