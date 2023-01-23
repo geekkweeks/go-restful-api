@@ -37,7 +37,7 @@ func (controller *UserControllerImpl) Update(writer http.ResponseWriter, request
 	userUpdateRequest := web.UserUpdateRequest{}
 	helper.ReadFromRequestBody(request, &userUpdateRequest)
 
-	userId := params.ByName("id")
+	userId := params.ByName("userId")
 	id, err := strconv.Atoi(userId)
 	helper.PanicIfError(err)
 
@@ -54,7 +54,7 @@ func (controller *UserControllerImpl) Update(writer http.ResponseWriter, request
 }
 
 func (controller *UserControllerImpl) Delete(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
-	userId := params.ByName("id")
+	userId := params.ByName("userId")
 	id, err := strconv.Atoi(userId)
 	helper.PanicIfError(err)
 
@@ -68,7 +68,7 @@ func (controller *UserControllerImpl) Delete(writer http.ResponseWriter, request
 }
 
 func (controller *UserControllerImpl) FindById(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
-	userId := params.ByName("id")
+	userId := params.ByName("userId")
 	id, err := strconv.Atoi(userId)
 	helper.PanicIfError(err)
 

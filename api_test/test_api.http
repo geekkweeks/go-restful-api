@@ -2,6 +2,10 @@
 GET http://localhost:3000/api/users
 Accept: application/json
 
+### Get user by id
+GET http://localhost:3000/api/users/2
+Accept: application/json
+
 ### Add new user
 POST http://localhost:3000/api/users
 Accept: application/json
@@ -12,4 +16,16 @@ Content-Type: application/json
   "firstName": "gohan son",
   "lastName": "Uhuyss",
   "phone": "233444"
+}
+
+### Update user
+PUT http://localhost:3000/api/users/1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "alfanzahri",
+  "firstName": "alfan",
+  "lastName": "Zahri",
+  "phone": "08392723"
 }

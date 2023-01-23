@@ -30,7 +30,7 @@ func (repository *UserRepositoryImpl) Add(ctx context.Context, tx *sql.Tx, user 
 
 func (repository *UserRepositoryImpl) Update(ctx context.Context, tx *sql.Tx, user domain.User) domain.User {
 	SQL := "UPDATE USER set username = ?, firstName = ?, lastName  = ?, phone = ? where id = ?"
-	_, err := tx.ExecContext(ctx, SQL, user.Username, user.FirstName, user.LastName, user.Phone)
+	_, err := tx.ExecContext(ctx, SQL, user.Username, user.FirstName, user.LastName, user.Phone, user.Id)
 	helper.PanicIfError(err)
 
 	return user
@@ -46,6 +46,7 @@ func (repository *UserRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, 
 	SQL := "SELECT id, username, firstName, lastName, Phone from user where id = ?"
 	rows, err := tx.QueryContext(ctx, SQL, id)
 	helper.PanicIfError(err)
+	// rows should be closed
 	defer rows.Close()
 
 	user := domain.User{}
@@ -62,6 +63,7 @@ func (repository *UserRepositoryImpl) GetAll(ctx context.Context, tx *sql.Tx) []
 	SQL := "SELECT id, username, firstName, lastName, Phone from user"
 	rows, err := tx.QueryContext(ctx, SQL)
 	helper.PanicIfError(err)
+	// rows should be closed
 	defer rows.Close()
 
 	var users []domain.User
