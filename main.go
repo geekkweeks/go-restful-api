@@ -23,6 +23,8 @@ func main() {
 
 	router := httprouter.New()
 
+	router.POST("/api/users/login", userController.Login)
+
 	router.GET("/api/users", userController.GetAll)
 	router.GET("/api/users/:userId", userController.FindById)
 	router.POST("/api/users", userController.Add)

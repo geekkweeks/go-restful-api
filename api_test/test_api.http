@@ -1,3 +1,13 @@
+### Login User
+POST http://localhost:3000/api/users/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "alfanzah",
+  "password": "ZXasqw12"
+}
+
 ### Get all users
 GET http://localhost:3000/api/users
 Accept: application/json
@@ -9,13 +19,15 @@ Accept: application/json
 
 ### Add new user
 POST http://localhost:3000/api/users
+X-API-Key: BwFvHRMEGQ
 Accept: application/json
 Content-Type: application/json
 
 {
-  "username": "Yupi",
-  "firstName": "gohan son",
-  "lastName": "Uhuyss",
+  "username": "alfanzah",
+  "password": "ZXasqw12",
+  "firstName": "Alfan",
+  "lastName": "Zahriyono",
   "phone": "233444"
 }
 

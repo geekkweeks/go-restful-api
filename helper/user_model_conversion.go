@@ -22,3 +22,10 @@ func ToUserResponses(users []domain.User) []web.UserResponse {
 	}
 	return userResponses
 }
+
+func ToLoginResponse(username string, token string) web.LoginResponse {
+	return web.LoginResponse{
+		Username: username,
+		Token:    token,
+	}
+}

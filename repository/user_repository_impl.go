@@ -17,8 +17,8 @@ func NewUserRepository() UserRepository {
 }
 
 func (repository *UserRepositoryImpl) Add(ctx context.Context, tx *sql.Tx, user domain.User) domain.User {
-	SQL := "INSERT INTO USER(username, firstname, lastname, phone) values (?, ?, ?, ?)"
-	result, err := tx.ExecContext(ctx, SQL, user.Username, user.FirstName, user.LastName, user.Phone)
+	SQL := "INSERT INTO USER(username, password,  firstname, lastname, phone) values (?, ?, ?, ?, ?)"
+	result, err := tx.ExecContext(ctx, SQL, user.Username, user.Password, user.FirstName, user.LastName, user.Phone)
 	helper.PanicIfError(err)
 
 	// Get last Id after inserted
@@ -76,4 +76,22 @@ func (repository *UserRepositoryImpl) GetAll(ctx context.Context, tx *sql.Tx) []
 		users = append(users, user)
 	}
 	return users
+}
+
+func (repository UserRepositoryImpl) FindByUsername(ctx context.Context, tx *sql.Tx, username string) (domain.User, error) {
+	SQL := "SELECT id, username, password, firstName, lastName, Phone from user where username = ?"
+	rows, err := tx.QueryContext(ctx, SQL, username)
+	helper.PanicIfError(err)
+	// rows should be closed
+	defer rows.Close()
+
+	user := domain.User{}
+	if rows.Next() {
+		err := rows.Scan(&user.Id, &user.Username, &user.Password, &user.FirstName, &user.LastName, &user.Phone)
+		helper.PanicIfError(err)
+		return user, nil
+	} else {
+		errorMessage := "invalid username or password"
+		return user, errors.New(errorMessage)
+	}
 }

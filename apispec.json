@@ -227,6 +227,9 @@
           "username": {
             "type": "string"
           },
+          "password": {
+            "type": "string"
+          },
           "firstName": {
             "type": "string"
           },
